@@ -1,16 +1,19 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import DashboardPage from './pages/DashboardPage';
+import PatientProfilePage from './pages/PatientProfilePage';
 import './App.css';
-import AssessmentContainer from './containers/AssessmentContainer';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Geriatric Health Assessment Tool</h1>
-      </header>
-      <main className="App-main">
-        <AssessmentContainer />
-      </main>
+      <Router>
+        <Routes>
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/patient/:id" element={<PatientProfilePage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

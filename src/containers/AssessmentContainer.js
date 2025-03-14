@@ -3,17 +3,20 @@ import QuestionDisplay from '../components/QuestionDisplay';
 import ResponseDisplay from '../components/ResponseDisplay';
 import SummaryDisplay from '../components/SummaryDisplay';
 import QADisplay from '../components/QADisplay';
+import ThinkingIndicator from '../components/ThinkingIndicator';
 import Button from '../components/Button';
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
 import { useSpeechSynthesis } from '../hooks/useSpeechSynthesis';
 import AssessmentService from '../services/AssessmentService';
+import './AssessmentContainer.css';
 
-const AssessmentContainer = () => {
-  const [status, setStatus] = useState('idle'); // idle, speaking, listening, processing, complete
+const AssessmentContainer = ({ patientName }) => {
+  const [status, setStatus] = useState('idle'); // idle, speaking, listening, processing, thinking, complete
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [lastResponse, setLastResponse] = useState('');
   const [summary, setSummary] = useState('');
   const [allResponses, setAllResponses] = useState({});
+  const [showAssessment, setShowAssessment] = useState(false);
   
   const { transcript, isListening, startListening, stopListening } = useSpeechRecognition();
   const { speak, speaking, cancel } = useSpeechSynthesis();
@@ -25,10 +28,11 @@ const AssessmentContainer = () => {
     setLastResponse('');
     setSummary('');
     setAllResponses({});
+    setShowAssessment(false);
     
     // Introduction message
     try {
-      await speak("I'm going to ask you some questions about your family member's health. Please respond after each question.");
+      await speak(`I'm going to ask you some questions about ${patientName}'s health. Please respond after each question.`);
       
       // Start with first question
       const firstQuestion = AssessmentService.getCurrentQuestion();
@@ -40,12 +44,17 @@ const AssessmentContainer = () => {
       console.error('Error starting assessment:', error);
       setStatus('error');
     }
-  }, [speak]);
+  }, [speak, patientName]);
   
   const askQuestion = useCallback(async (question) => {
     if (!question) {
-      // Assessment complete
-      finishAssessment();
+      // All questions complete, now "thinking"
+      setStatus('thinking');
+      
+      // Simulate AI thinking for 5 seconds before showing results
+      setTimeout(() => {
+        finishAssessment();
+      }, 5000);
       return;
     }
     
@@ -66,13 +75,14 @@ const AssessmentContainer = () => {
   const finishAssessment = useCallback(() => {
     setStatus('complete');
     setCurrentQuestion('');
+    setShowAssessment(true);
     
-    // Generate and speak summary
+    // Generate summary
     const assessmentSummary = AssessmentService.getSummary();
     setSummary(assessmentSummary);
     
-    speak("Thank you for completing the assessment. Here is the summary of findings: " + 
-          assessmentSummary.replace('\n\n', '. '));
+    // Speak the summary
+    speak(`Thank you for completing the assessment. Here is the summary of findings: ${assessmentSummary.replace('\n\n', '. ')}`);
   }, [speak]);
   
   // Handle transcripts from speech recognition
@@ -111,19 +121,40 @@ const AssessmentContainer = () => {
         <div className="status-indicator">
           Status: {status === 'speaking' ? 'Speaking' : 
                   status === 'listening' ? 'Listening...' : 
-                  status === 'processing' ? 'Processing...' : 
+                  status === 'processing' ? 'Processing...' :
+                  status === 'thinking' ? 'Analyzing results...' :
                   status === 'complete' ? 'Complete' : 
                   status === 'error' ? 'Error' : 'Ready'}
         </div>
       </div>
       
-      <QuestionDisplay question={currentQuestion} isListening={isListening} />
-      
-      {lastResponse && <ResponseDisplay response={lastResponse} />}
-      
-      <QADisplay responses={allResponses} />
-      
-      <SummaryDisplay summary={summary} isComplete={status === 'complete'} />
+      <div className="assessment-content">
+        {/* Left side - Current Q&A (shown only during assessment) */}
+        {!showAssessment && (
+          <div className="current-qa-section">
+            <QuestionDisplay question={currentQuestion} isListening={isListening} />
+            {lastResponse && <ResponseDisplay response={lastResponse} />}
+            
+            {status === 'thinking' && (
+              <ThinkingIndicator message="Analyzing responses and generating assessment..." />
+            )}
+          </div>
+        )}
+        
+        {/* Right side - Q&A History (always shown after first response) */}
+        <div className={`qa-history-section ${showAssessment ? 'expanded' : ''}`}>
+          {Object.keys(allResponses).length > 0 && (
+            <QADisplay responses={allResponses} />
+          )}
+        </div>
+        
+        {/* Right side (below Q&A History) - Assessment Summary */}
+        {showAssessment && (
+          <div className="summary-section">
+            <SummaryDisplay summary={summary} isComplete={status === 'complete'} />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

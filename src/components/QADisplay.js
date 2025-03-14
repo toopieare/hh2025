@@ -7,18 +7,22 @@ const QADisplay = ({ responses }) => {
   }
 
   return (
-    <div className="qa-display">
-      <h3>Q&A History:</h3>
-      <table className="qa-table">
-        <tbody>
-          {Object.entries(responses).map(([question, response], index) => (
-            <tr key={index}>
-              <td>{question}</td>
-              <td>{response}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="qa-display-container">
+      <div className="qa-display-header">
+        <h3>Q&A History:</h3>
+      </div>
+      <div className="qa-table-container">
+        <table className="qa-table">
+          <tbody>
+            {Object.entries(responses).map(([question, response], index) => (
+              <tr key={index}>
+                <td>{question}</td>
+                <td>{response}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
