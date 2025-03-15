@@ -23,7 +23,7 @@ const DashboardPage = () => {
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
-        <h1>Geriatric Health Assessment Dashboard</h1>
+        <h1>CGA Clarity Dashboard</h1>
       </header>
       
       <main className="dashboard-main">

@@ -144,7 +144,7 @@ const AssessmentContainer = ({ patientName }) => {
   
   return (
     <div className="assessment-container">
-      <h2>Voice-Enabled Medical Assessment</h2>
+      <h2>Assessment</h2>
       
       <div className="controls">
         <Button 
