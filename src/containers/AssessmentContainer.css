@@ -254,3 +254,77 @@
   background-color: rgba(255, 193, 7, 0.2);
   color: #f57c00;
 }
+
+/* Mobile responsiveness */
+@media (max-width: 767px) {
+  .assessment-container {
+    padding: 15px;
+  }
+  
+  .assessment-container h2 {
+    font-size: 20px;
+  }
+  
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .app-button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .status-pill {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  /* Adjust spacing for mobile */
+  .assessment-content {
+    gap: 15px;
+  }
+  
+  /* Make tables scroll horizontally on mobile */
+  .qa-table-container {
+    overflow-x: auto;
+  }
+  
+  .qa-table {
+    min-width: 300px;
+  }
+  
+  /* Style improvements for mobile cognitive issues display */
+  .cognitive-issues ul {
+    padding-left: 15px;
+  }
+  
+  /* Better button layout on mobile */
+  .summary-actions {
+    flex-direction: column;
+  }
+  
+  .summary-action-button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .question-text, 
+  .response-text {
+    font-size: 14px;
+    padding: 10px;
+    min-height: 50px;
+  }
+  
+  .status-indicator {
+    padding: 10px;
+  }
+  
+  .question-display h3, 
+  .response-display h3 {
+    font-size: 14px;
+  }
+}

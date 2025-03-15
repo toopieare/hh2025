@@ -9,9 +9,9 @@ const DashboardPage = () => {
   const patients = [
     { id: 1, name: "Rachel Tan", nric: "S1234567A", age: 72, gender: "Female" },
     { id: 2, name: "Michael Low", nric: "S2345678B", age: 68, gender: "Male" },
-    { id: 3, name: "Yiren Chai", nric: "S3456789C", age: 84, gender: "Female" },
+    { id: 3, name: "Joan Chai", nric: "S3456789C", age: 84, gender: "Female" },
     { id: 4, name: "Vikram Kannan", nric: "S4567890D", age: 77, gender: "Male" },
-    { id: 5, name: "Fairuz Abdul", nric: "S5678901E", age: 70, gender: "Female" },
+    { id: 5, name: "Fairuz Abdul", nric: "S5678901E", age: 70, gender: "Male" },
   ];
 
   const handlePatientSelect = (patient) => {
@@ -28,6 +28,8 @@ const DashboardPage = () => {
       
       <main className="dashboard-main">
         <h2>Patient List</h2>
+        
+        {/* Table view for larger screens */}
         <div className="patient-list">
           <table>
             <thead>
@@ -58,6 +60,39 @@ const DashboardPage = () => {
               ))}
             </tbody>
           </table>
+        </div>
+        
+        {/* Card view for mobile */}
+        <div className="patient-cards">
+          {patients.map(patient => (
+            <div key={patient.id} className="patient-card">
+              <div className="patient-card-header">
+                {patient.name}
+              </div>
+              <div className="patient-card-details">
+                <div className="patient-card-detail">
+                  <span className="detail-label">NRIC</span>
+                  <span className="detail-value">{patient.nric}</span>
+                </div>
+                <div className="patient-card-detail">
+                  <span className="detail-label">Age</span>
+                  <span className="detail-value">{patient.age}</span>
+                </div>
+                <div className="patient-card-detail">
+                  <span className="detail-label">Gender</span>
+                  <span className="detail-value">{patient.gender}</span>
+                </div>
+              </div>
+              <div className="patient-card-actions">
+                <button 
+                  className="select-button"
+                  onClick={() => handlePatientSelect(patient)}
+                >
+                  Select Patient
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </main>
     </div>
