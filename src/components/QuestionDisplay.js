@@ -5,7 +5,7 @@ const QuestionDisplay = ({ question, isListening }) => {
     <div className="question-display">
       <h3>Current Question:</h3>
       <div className="question-text">
-        {question || "Assessment complete"}
+        {question || ""}
         {isListening && <span className="mic-indicator active"></span>}
       </div>
     </div>
