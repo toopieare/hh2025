@@ -1,6 +1,6 @@
 export const symptomPatterns = {
     "falls": {
-      keywords: ["fall", "fell", "falling", "fallen", "tripped", "collapsed"],
+      keywords: ["fall", "fell", "falling", "fallen", "tripped", "collapsed", "falls", "false"],
       negationWords: ["no", "not", "didn't", "never", "hasn't"]
     },
     "memory": {

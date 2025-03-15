@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import QuestionDisplay from '../components/QuestionDisplay';
 import ResponseDisplay from '../components/ResponseDisplay';
-import SummaryDisplay from '../components/SummaryDisplay';
+import EnhancedSummaryDisplay from '../components/EnhancedSummaryDisplay';
 import QADisplay from '../components/QADisplay';
 import ThinkingIndicator from '../components/ThinkingIndicator';
 import Button from '../components/Button';
+import ProgressBar from '../components/ProgressBar';
+import ResponseConfirmation from '../components/ResponseConfirmation';
+import './ResponseConfirmation.css';
+//import VoiceVisualizer from '../components/VoiceVisualizer';
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
 import { useSpeechSynthesis } from '../hooks/useSpeechSynthesis';
 import AssessmentService from '../services/AssessmentService';
+import { assessmentQuestions } from '../models/QuestionBank';
 import './AssessmentContainer.css';
 
 const AssessmentContainer = ({ patientName }) => {
@@ -17,9 +22,17 @@ const AssessmentContainer = ({ patientName }) => {
   const [summary, setSummary] = useState('');
   const [allResponses, setAllResponses] = useState({});
   const [showAssessment, setShowAssessment] = useState(false);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  
+  // Add these two state declarations
+  const [pendingResponse, setPendingResponse] = useState('');
+  const [confirmingResponse, setConfirmingResponse] = useState(false);
   
   const { transcript, isListening, startListening, stopListening } = useSpeechRecognition();
   const { speak, speaking, cancel } = useSpeechSynthesis();
+  
+  // Create simple labels for the progress bar
+  const progressLabels = assessmentQuestions.map((_, index) => `Q${index + 1}`);
   
   const startAssessment = useCallback(async () => {
     // Reset the assessment
@@ -29,6 +42,7 @@ const AssessmentContainer = ({ patientName }) => {
     setSummary('');
     setAllResponses({});
     setShowAssessment(false);
+    setCurrentQuestionIndex(0);
     
     // Introduction message
     try {
@@ -57,6 +71,9 @@ const AssessmentContainer = ({ patientName }) => {
       }, 5000);
       return;
     }
+    
+    // Clear the last response when moving to a new question
+    setLastResponse('');
     
     setStatus('speaking');
     try {
@@ -90,22 +107,40 @@ const AssessmentContainer = ({ patientName }) => {
     if (transcript && status === 'listening') {
       // Stop listening once we have a response
       stopListening();
-      setStatus('processing');
-      setLastResponse(transcript);
-      
-      // Record the response and get the next question
-      const nextQuestion = AssessmentService.recordResponse(transcript);
-      setCurrentQuestion(nextQuestion);
-      
-      // Update the responses table
-      setAllResponses(AssessmentService.getResponses());
-      
-      // Small delay before next question
-      setTimeout(() => {
-        askQuestion(nextQuestion);
-      }, 1000);
+      setStatus('confirming');
+      setPendingResponse(transcript);
+      setConfirmingResponse(true);
     }
-  }, [transcript, status, stopListening, askQuestion]);
+  }, [transcript, status, stopListening]);
+
+  const handleResponseConfirmed = (confirmedResponse) => {
+    setLastResponse(confirmedResponse);
+    setConfirmingResponse(false);
+    setStatus('processing');
+    
+    // Record the response and get the next question
+    const nextQuestion = AssessmentService.recordResponse(confirmedResponse);
+    setCurrentQuestion(nextQuestion);
+    
+    // Update question index for progress bar
+    setCurrentQuestionIndex(prev => prev + 1);
+    
+    // Update the responses table
+    setAllResponses(AssessmentService.getResponses());
+    
+    // Small delay before next question
+    setTimeout(() => {
+      askQuestion(nextQuestion);
+    }, 1000);
+  };
+  
+  // Get voice status text
+  const getVoiceStatusText = () => {
+    if (status === 'speaking') return "AI Speaking...";
+    if (status === 'listening') return "Listening...";
+    if (status === 'processing') return "Processing...";
+    return "";
+  };
   
   return (
     <div className="assessment-container">
@@ -116,24 +151,54 @@ const AssessmentContainer = ({ patientName }) => {
           onClick={startAssessment} 
           disabled={status !== 'idle' && status !== 'complete' && status !== 'error'}
         >
-          Start Assessment
+          {status === 'idle' || status === 'complete' ? 'Start Assessment' : 'Assessment in Progress'}
         </Button>
-        <div className="status-indicator">
-          Status: {status === 'speaking' ? 'Speaking' : 
-                  status === 'listening' ? 'Listening...' : 
-                  status === 'processing' ? 'Processing...' :
-                  status === 'thinking' ? 'Analyzing results...' :
-                  status === 'complete' ? 'Complete' : 
-                  status === 'error' ? 'Error' : 'Ready'}
+        <div className={`status-pill ${status}`}>
+          {status === 'speaking' ? 'Speaking' : 
+          status === 'listening' ? 'Listening...' : 
+          status === 'confirming' ? 'Please confirm response' :
+          status === 'processing' ? 'Processing...' :
+          status === 'thinking' ? 'Analyzing results...' :
+          status === 'complete' ? 'Complete' : 
+          status === 'error' ? 'Error' : 'Ready'}
         </div>
       </div>
       
-      <div className="assessment-content">
+      {/* Progress bar - visible during assessment */}
+      {!showAssessment && status !== 'idle' && (
+        <ProgressBar 
+          current={currentQuestionIndex} 
+          total={assessmentQuestions.length}
+          labels={progressLabels}
+        />
+      )}
+      
+      <div className={`assessment-content ${showAssessment ? 'completed' : ''}`}>
         {/* Left side - Current Q&A (shown only during assessment) */}
         {!showAssessment && (
           <div className="current-qa-section">
             <QuestionDisplay question={currentQuestion} isListening={isListening} />
-            {lastResponse && <ResponseDisplay response={lastResponse} />}
+            
+            {/* Voice visualizer commented out as per your preference */}
+            {/* <VoiceVisualizer 
+              isActive={status === 'speaking' || status === 'listening'} 
+              statusText={getVoiceStatusText()}
+            /> */}
+            
+            {lastResponse && !confirmingResponse && (
+              <ResponseDisplay response={lastResponse} />
+            )}
+
+            {confirmingResponse && (
+              <div className="confirmation-container">
+                <h3>Please confirm your response:</h3>
+                <ResponseConfirmation 
+                  response={pendingResponse}
+                  onConfirm={handleResponseConfirmed}
+                  onEdit={() => {}} // This is handled internally in the component
+                />
+              </div>
+            )}
             
             {status === 'thinking' && (
               <ThinkingIndicator message="Analyzing responses and generating assessment..." />
@@ -151,7 +216,7 @@ const AssessmentContainer = ({ patientName }) => {
         {/* Right side (below Q&A History) - Assessment Summary */}
         {showAssessment && (
           <div className="summary-section">
-            <SummaryDisplay summary={summary} isComplete={status === 'complete'} />
+            <EnhancedSummaryDisplay summary={summary} isComplete={status === 'complete'} />
           </div>
         )}
       </div>

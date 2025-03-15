@@ -1,0 +1,81 @@
+.progress-container {
+    margin: 30px 0;
+    padding: 0 10px;
+    position: relative;
+  }
+  
+  .progress-bar-wrapper {
+    height: 12px;
+    background-color: #f0f0f0;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(to right, #4CAF50, #8BC34A);
+    border-radius: 6px;
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  .progress-text {
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding-right: 8px;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  }
+  
+  .progress-labels {
+    position: relative;
+    height: 40px;
+    margin-top: 10px;
+  }
+  
+  .progress-label {
+    position: absolute;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+  
+  .progress-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ddd;
+    margin-bottom: 5px;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  .progress-label span {
+    font-size: 12px;
+    color: #666;
+    max-width: 100px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .progress-label.completed .progress-dot {
+    background-color: #4CAF50;
+  }
+  
+  .progress-label.active .progress-dot {
+    background-color: #2196F3;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.3);
+    transform: scale(1.2);
+  }
+  
+  .progress-label.active span {
+    color: #2196F3;
+    font-weight: bold;
+  }

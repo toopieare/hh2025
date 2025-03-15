@@ -8,23 +8,55 @@ class AnalysisService {
     const lowerResponse = response.toLowerCase();
     
     // Check for keywords
-    const hasKeyword = pattern.keywords.some(keyword => lowerResponse.includes(keyword));
+    const foundKeywords = [];
+    pattern.keywords.forEach(keyword => {
+      if (lowerResponse.includes(keyword)) {
+        foundKeywords.push({
+          keyword: keyword,
+          index: lowerResponse.indexOf(keyword)
+        });
+      }
+    });
     
-    // Check for negation words near keywords
+    // If no keywords found, no symptoms
+    if (foundKeywords.length === 0) {
+      return false;
+    }
+    
+    // Check for negation words near keywords with improved proximity detection
     const hasNegation = pattern.negationWords.some(word => {
       if (lowerResponse.includes(word)) {
-        // Simple proximity check
-        const negationIndex = lowerResponse.indexOf(word);
-        return pattern.keywords.some(keyword => {
-          const keywordIndex = lowerResponse.indexOf(keyword);
-          return keywordIndex !== -1 && Math.abs(keywordIndex - negationIndex) < 10;
-        });
+        // Get all occurrences of negation word
+        let negationIndex = lowerResponse.indexOf(word);
+        while (negationIndex !== -1) {
+          // Check if any keyword is within proximity
+          const isNearKeyword = foundKeywords.some(keywordInfo => {
+            return Math.abs(keywordInfo.index - negationIndex) < 15; // Increased proximity range
+          });
+          
+          if (isNearKeyword) {
+            return true;
+          }
+          
+          // Check for next occurrence
+          negationIndex = lowerResponse.indexOf(word, negationIndex + 1);
+        }
       }
       return false;
     });
     
-    // If we have a keyword but no nearby negation, consider it a positive finding
-    return hasKeyword && !hasNegation;
+    // Additional common negation phrases that might not be covered by simple word matching
+    const commonNegations = [
+      "did not", "didn't", "has not", "hasn't", "does not", "doesn't",
+      "no falls", "no history", "not had", "never had"
+    ];
+    
+    const hasCommonNegation = commonNegations.some(phrase => 
+      lowerResponse.includes(phrase)
+    );
+    
+    // If we have a keyword but it's negated, not a positive finding
+    return !(hasNegation || hasCommonNegation);
   }
   
   // Generate a summary based on responses
