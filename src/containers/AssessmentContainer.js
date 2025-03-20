@@ -8,7 +8,6 @@ import Button from '../components/Button';
 import ProgressBar from '../components/ProgressBar';
 import ResponseConfirmation from '../components/ResponseConfirmation';
 import './ResponseConfirmation.css';
-//import VoiceVisualizer from '../components/VoiceVisualizer';
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition';
 import { useSpeechSynthesis } from '../hooks/useSpeechSynthesis';
 import AssessmentService from '../services/AssessmentService';
@@ -23,8 +22,6 @@ const AssessmentContainer = ({ patientName }) => {
   const [allResponses, setAllResponses] = useState({});
   const [showAssessment, setShowAssessment] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  
-  // Add these two state declarations
   const [pendingResponse, setPendingResponse] = useState('');
   const [confirmingResponse, setConfirmingResponse] = useState(false);
   
@@ -65,10 +62,16 @@ const AssessmentContainer = ({ patientName }) => {
       // All questions complete, now "thinking"
       setStatus('thinking');
       
-      // Simulate AI thinking for 5 seconds before showing results
-      setTimeout(() => {
-        finishAssessment();
-      }, 5000);
+      // Get summary asynchronously
+      try {
+        const generatedSummary = await AssessmentService.getSummaryAsync();
+        setSummary(generatedSummary);
+        finishAssessment(generatedSummary);
+      } catch (error) {
+        console.error('Error generating summary:', error);
+        setSummary('Error generating assessment summary.');
+        finishAssessment('Error generating assessment summary.');
+      }
       return;
     }
     
@@ -89,17 +92,17 @@ const AssessmentContainer = ({ patientName }) => {
     }
   }, [speak, startListening]);
   
-  const finishAssessment = useCallback(() => {
+  const finishAssessment = useCallback((assessmentSummary) => {
     setStatus('complete');
     setCurrentQuestion('');
     setShowAssessment(true);
     
-    // Generate summary
-    const assessmentSummary = AssessmentService.getSummary();
-    setSummary(assessmentSummary);
-    
     // Speak the summary
-    speak(`Thank you for completing the assessment. Here is the summary of findings: ${assessmentSummary.replace('\n\n', '. ')}`);
+    if (assessmentSummary) {
+      speak(`Thank you for completing the assessment. Here is the summary of findings: ${assessmentSummary.replace('\n\n', '. ')}`);
+    } else {
+      speak(`Thank you for completing the assessment.`);
+    }
   }, [speak]);
   
   // Handle transcripts from speech recognition
@@ -158,7 +161,7 @@ const AssessmentContainer = ({ patientName }) => {
           status === 'listening' ? 'Listening...' : 
           status === 'confirming' ? 'Please confirm response' :
           status === 'processing' ? 'Processing...' :
-          status === 'thinking' ? 'Analyzing results...' :
+          status === 'thinking' ? 'Analyzing results with AI...' :
           status === 'complete' ? 'Complete' : 
           status === 'error' ? 'Error' : 'Ready'}
         </div>
@@ -179,12 +182,6 @@ const AssessmentContainer = ({ patientName }) => {
           <div className="current-qa-section">
             <QuestionDisplay question={currentQuestion} isListening={isListening} />
             
-            {/* Voice visualizer commented out as per your preference */}
-            {/* <VoiceVisualizer 
-              isActive={status === 'speaking' || status === 'listening'} 
-              statusText={getVoiceStatusText()}
-            /> */}
-            
             {lastResponse && !confirmingResponse && (
               <ResponseDisplay response={lastResponse} />
             )}
@@ -201,7 +198,7 @@ const AssessmentContainer = ({ patientName }) => {
             )}
             
             {status === 'thinking' && (
-              <ThinkingIndicator message="Analyzing responses and generating assessment..." />
+              <ThinkingIndicator message="Analyzing responses with AI and generating assessment..." />
             )}
           </div>
         )}
