@@ -129,17 +129,20 @@ The zero-shot prompting system follows this process:
 
 1. **Prompt Construction**:
    - Format assessment Q&A data into a structured prompt
-   - Add system instructions with clinical context
-   - Include format guidelines for the expected response
+   - Add system instructions with clinical context ("You are a geriatrician...")
+   - Include specialized instructions to focus on specific aspects (falls, cognitive domains)
+   - Provide format guidelines for the expected clinical assessment
 
 2. **API Processing**:
-   - Send the constructed prompt to OpenAI API
+   - Send the constructed prompt to OpenAI API through secure proxy
+   - Apply temperature settings for consistent clinical output
    - Process the response to extract clinical findings
 
 3. **Result Parsing**:
    - Parse the generated text to identify key sections (falls history, cognitive assessment)
    - Extract specific clinical findings and their justifications
-   - Format for presentation in the UI
+   - Identify important clinical terms (Amnesia, Agnosia, Apraxia, Aphasia)
+   - Format for presentation in the UI with appropriate severity indicators
 
 ## In-Development Components
 
@@ -167,9 +170,11 @@ Based on the Polaris architecture, we plan to implement:
 - **State Management**: React Context API
 - **Backend**: Node.js, Express
 - **AI/ML**: OpenAI API (GPT models)
+- **Multi-language Support**: Azure AI Speech (planned)
 - **Deployment**: DigitalOcean App Platform
+- **Security**: PDPA-compliant data handling (planned)
 
-## Scalability Considerations
+## Scalability and Evaluation Considerations
 
 The current architecture supports scalability through:
 
@@ -180,9 +185,17 @@ The current architecture supports scalability through:
 
 Future scalability enhancements will include:
 1. **Database Integration**: For persistent storage of assessment data
-2. **Microservice Architecture**: Breaking down monolithic components
-3. **Caching Layer**: For improved performance with repeated operations
-4. **Containerization**: Docker-based deployment for better scaling
+2. **Multi-language Support**: Scaling to support various languages common in Singapore
+3. **Expanded Orchestration**: Handling multiple assessment domains in CGA
+4. **Microservice Architecture**: Breaking down monolithic components
+5. **Containerization**: Docker-based deployment for better scaling
+
+Post-implementation evaluation will include:
+1. **Performance Monitoring**: Tracking response times, success rates, and user experience
+2. **Model Drift Detection**: Ensuring the model maintains consistent performance over time
+3. **Clinical Accuracy Verification**: Validating assessment results against professional diagnoses
+4. **User Satisfaction Metrics**: Gathering feedback from healthcare providers and patients
+5. **Compliance Auditing**: Regular checks for adherence to privacy and security regulations
 
 ## Development Guidelines
 

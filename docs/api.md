@@ -123,7 +123,49 @@ const {
 
 ## Future API Extensions (In Progress)
 
-### Planned Integration APIs
+### Short-term Planned Integrations (1-2 months)
+
+#### Multi-language Support via Azure AI Speech
+```
+POST /api/speech/detect-language
+POST /api/speech/translate
+POST /api/speech/synthesize
+```
+
+#### Privacy & Identity Verification
+```
+POST /api/verify/patient-identity
+GET /api/verify/authorization-status
+```
+
+#### Enhanced Orchestration
+```
+POST /api/orchestrator/assessment-domains
+GET /api/orchestrator/memory
+PUT /api/orchestrator/update-context
+```
+
+### Medium-term Planned Integrations (2-4 months)
+
+#### Clinical Guidelines Integration
+```
+GET /api/guidelines/check-criteria/:condition
+POST /api/guidelines/validate-assessment
+```
+
+#### Recommendation Engine
+```
+POST /api/rag/clinical-recommendations
+GET /api/guidelines/:condition/best-practices
+```
+
+#### Document Generation
+```
+POST /api/documents/generate-memo
+GET /api/documents/templates
+```
+
+### Other Planned Integrations
 
 #### Electronic Health Record (EHR) Integration
 ```
@@ -132,16 +174,11 @@ GET /api/ehr/patient/:id
 PUT /api/ehr/assessment/:id
 ```
 
-#### Multi-language Support
+#### Evaluation Pipeline
 ```
-POST /api/translation/detect
-POST /api/translation/translate
-```
-
-#### Clinical Recommendations
-```
-POST /api/clinical/recommendations
-GET /api/clinical/guidelines/:condition
+POST /api/evaluation/log-interaction
+GET /api/evaluation/performance-metrics
+GET /api/evaluation/drift-analysis
 ```
 
 ## API Security Considerations
@@ -153,10 +190,13 @@ The current implementation includes:
 3. **Error Handling**: Structured error responses with appropriate HTTP status codes
 
 Planned security enhancements:
-1. **Rate Limiting**: To prevent abuse of the API
-2. **Request Logging**: For audit and debugging purposes
-3. **Request Authentication**: Token-based authentication for protected endpoints
-4. **Data Encryption**: For sensitive patient information
+1. **Patient Identity Verification**: Ensuring the agent is speaking to the right patient/caregivers
+2. **PDPA Compliance**: Ensuring all data handling complies with Singapore's Personal Data Protection Act
+3. **Data Encryption**: For sensitive patient information in transit and at rest
+4. **Audit Logging**: Comprehensive logging of system activities for compliance and debugging
+5. **Access Controls**: Role-based permissions for different user types
+6. **Rate Limiting**: To prevent abuse of the API
+7. **Monitoring Systems**: For detecting unusual patterns or potential breaches
 
 ## Development and Testing
 
