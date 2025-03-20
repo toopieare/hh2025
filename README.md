@@ -32,7 +32,7 @@ The project is built using:
 
 ## Upcoming Features & Timeline
 
-Inspired by the [Polaris LLM constellation architecture](https://arxiv.org/pdf/2403.13313), we're building a multi-agent system with these planned components:
+We're building a multi-agent system with these planned components:
 
 ### Short-term (1-2 months):
 - [ ] **Privacy & Compliance Specialist** - Enhance identity verification and privacy controls to ensure that the agent is speaking to the right patient/caregivers and collect the identity securely.
