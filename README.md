@@ -35,21 +35,27 @@ The project is built using:
 Inspired by the [Polaris LLM constellation architecture](https://arxiv.org/pdf/2403.13313), we're building a multi-agent system with these planned components:
 
 ### Short-term (1-2 months):
-- [ ] **Checklist Specialist** - Ensure all assessment objectives are completed 
-- [ ] **Enhanced Text Analysis** - Improved symptom pattern recognition 
-- [ ] **Human Intervention Specialist** - Detect when human healthcare professionals should be involved
-- [ ] **Expanded Language Capabilities** - Use appropriate APIs for languages common in Singapore
+- [ ] **Privacy & Compliance Specialist** - Enhance identity verification and privacy controls to ensure that the agent is speaking to the right patient/caregivers and collect the identity securely.
+- [ ] **Expanded Language Capabilities** - Use appropriate APIs such as Azure AI Speech to support common languages in Singapore such as Chinese, Malay, Berhasa and Tamil
+- [ ] **Main Orchestrator Agent** - This orchestrator will be equipped to collect all the assessment domains in a CGA such as  cognitive impairment, falls, mood disorders, malnutrition and frailty, and update its memory automatically
 
 ### Medium-term (2-4 months):
-- [ ] **EHR Integration** - Connect with patient record systems
-- [ ] **Privacy & Compliance Specialist** - Enhance identity verification and privacy controls
-- [ ] **Recommendations** - Creating recommendations and drafting memos to healthcare professionals
+- [ ] **Specialist Agent** - Link specialist agent to the various medical guidelines to determine if items collected from the patient/caregiver is sufficient to conclude if the patient has the medical problem and what other information needs to be collected
+- [ ] **Provide Recommendations on Medical Interventions** - Implement Retrieval Augmented Generation / utilise long context language model to stuff geriatric clinical guidelines to provide best practice recommendation for the patient’s medical problems
+- [ ] **Draft Memos** - Based on the patient medical problems identified in the CGA, a memo can be drafted to the necessary departments
+- [ ] **Human Intervention Specialist** - Identify points of failure where the agent is unable to complete collection of certain history and then flag potential areas where clinicians need to probe deeper
 
 ### Long-term (6-12 months):
 - [ ] **Full Constellation Architecture** - Complete implementation of all specialist agents
 - [ ] **Medical Knowledge Base** - Expanded database of clinical conditions
 - [ ] **Multi-call Relationships** - Support for ongoing patient relationships across calls
 - [ ] **Connection to Care Agencies** - Linkage with other care agencies suited to patient's needs
+
+### Others:
+- [] **EHR Integration**  - Connect with patient record systems
+- [] **Data Security and Privacy** - Ensure that conversational data are encrypted and comply with PDPA regulation
+- [] **Post-implementation Evaluation Pipeline** - Ensure that the performance of the model is reliable and is not drifting over time
+
 
 ## Technical Architecture
 
