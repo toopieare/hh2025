@@ -1,7 +1,7 @@
 ## NUS Health Hack 2025 Project: CGA Clarity
 Members: Alfred Ho, Raymond Lu, Qihuang Xie, Kenneth Yong
 
-This repository contains our hackathon entry for a technology-based solution to implement the Comprehensive Geriatric Assessment (CGA) inspired by the [Polaris LLM constellation architecture](https://arxiv.org/pdf/2403.13313). Our system is designed to conduct the CGA through natural voice conversations with patients.
+This repository contains our hackathon entry for a technology-based solution to implement the Comprehensive Geriatric Assessment (CGA) inspired by the [Polaris LLM constellation architecture](https://arxiv.org/pdf/2403.13313). Our system is designed to conduct the CGA through natural voice conversations with patients or caregivers.
 
 ## Current Progress & Features
 
@@ -27,17 +27,18 @@ Inspired by the [Polaris LLM constellation architecture](https://arxiv.org/pdf/2
 - [ ] **Checklist Specialist** - Ensure all assessment objectives are completed 
 - [ ] **Enhanced Text Analysis** - Improved symptom pattern recognition 
 - [ ] **Human Intervention Specialist** - Detect when human healthcare professionals should be involved
+- [ ] **Expanded Language Capabilities** - Use appropriate APIs for languages common in Singapore
 
 ### Medium-term (2-4 months):
 - [ ] **EHR Integration** - Connect with patient record systems
 - [ ] **Privacy & Compliance Specialist** - Enhance identity verification and privacy controls
-- [ ] **Labs & Vitals Specialist** - Add capability to discuss and analyze patient lab results
+- [ ] **Recommendations** - Creating recommendations and drafting memos to healthcare professionals
 
 ### Long-term (6-12 months):
 - [ ] **Full Constellation Architecture** - Complete implementation of all specialist agents
 - [ ] **Medical Knowledge Base** - Expanded database of clinical conditions
 - [ ] **Multi-call Relationships** - Support for ongoing patient relationships across calls
-- [ ] **Multi-modal Support** - Add support for visual cues and assessments
+- [ ] **Connection to Care Agencies** - Linkage with other care agencies suited to patient's needs
 
 ## Technical Architecture
 
