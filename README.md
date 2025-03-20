@@ -127,11 +127,6 @@ npm run build
 npm start
 ```
 
-When deploying to platforms like DigitalOcean:
-1. Configure as a Web Service (not a static site)
-2. Set the environment variable `OPENAI_API_KEY` in your platform settings
-3. Set the run command to `npm start`
-
 ## References
 
 Mukherjee, S., Gamble, P., Ausin, M. S., Kant, N., Aggarwal, K., Manjunath, N., Datta, D., Liu, Z., Ding, J., Busacca, S., Bianco, C., Sharma, S., Lasko, R., Voisard, M., Harnejas, S., Filippova, D., Meixiong, G., Cha, K., Youssefi, A., Buvanesh, M., Weingram, H., Bierman-Lyle, S., Mangat, H. S., Parikh, K., Godil, S., & Miller, A. (2024). Polaris: A Safety-focused LLM Constellation Architecture for Healthcare. arXiv:2403.13313. https://arxiv.org/pdf/2403.13313
