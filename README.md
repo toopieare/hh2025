@@ -52,9 +52,9 @@ We're building a multi-agent system with these planned components:
 - [ ] **Connection to Care Agencies** - Linkage with other care agencies suited to patient's needs
 
 ### Others:
-- [] **EHR Integration**  - Connect with patient record systems
-- [] **Data Security and Privacy** - Ensure that conversational data are encrypted and comply with PDPA regulation
-- [] **Post-implementation Evaluation Pipeline** - Ensure that the performance of the model is reliable and is not drifting over time
+- [ ] **EHR Integration**  - Connect with patient record systems
+- [ ] **Data Security and Privacy** - Ensure that conversational data are encrypted and comply with PDPA regulation
+- [ ] **Post-implementation Evaluation Pipeline** - Ensure that the performance of the model is reliable and is not drifting over time
 
 
 ## Technical Architecture
