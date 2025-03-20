@@ -1,70 +1,88 @@
-# Getting Started with Create React App
+## NUS Health Hack 2025 Project: CGA Clarity
+Members: Alfred Ho, Raymond Lu, Qihuang Xie, Kenneth Yong
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository contains our hackathon entry for a technology-based solution to implement the Comprehensive Geriatric Assessment (CGA) inspired by the [Polaris LLM constellation architecture](https://arxiv.org/pdf/2403.13313). Our system is designed to conduct the CGA through natural voice conversations with patients.
 
-## Available Scripts
+## Current Progress & Features
 
-In the project directory, you can run:
+We've developed a portion of the functionality within the limited hackathon timeframe:
 
-### `npm start`
+- [x] **Complete UI Framework** - A React-based interface with patient dashboard, assessment interface, and result visualization
+- [x] **Voice-based Interaction** - Fully implemented speech recognition and text-to-speech for natural conversations (in English)
+- [x] **Progress Tracking** - Visual indicators showing assessment completion status
+- [x] **Response Confirmation** - Patient responses can be reviewed and edited for accuracy
+- [x] **Enhanced Summaries** - Visualization of assessment results with clinical insights
+- [x] **Basic Question Bank** - Initial set of cognitive assessment questions implemented
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Current Specialist Components:
+- [x] **Question Display** - Shows current questions with visual indicators
+- [x] **Response Management** - Records and processes patient responses
+- [x] **Basic NLP Analysis** - Simple text analysis for symptom detection
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Upcoming Features & Timeline
 
-### `npm test`
+Inspired by the [Polaris LLM constellation architecture](https://arxiv.org/pdf/2403.13313), we're building a multi-agent system with these planned components:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Short-term (1-2 months):
+- [ ] **Checklist Specialist** - Ensure all assessment objectives are completed 
+- [ ] **Enhanced Text Analysis** - Improved symptom pattern recognition 
+- [ ] **Human Intervention Specialist** - Detect when human healthcare professionals should be involved
 
-### `npm run build`
+### Medium-term (2-4 months):
+- [ ] **EHR Integration** - Connect with patient record systems
+- [ ] **Privacy & Compliance Specialist** - Enhance identity verification and privacy controls
+- [ ] **Labs & Vitals Specialist** - Add capability to discuss and analyze patient lab results
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Long-term (6-12 months):
+- [ ] **Full Constellation Architecture** - Complete implementation of all specialist agents
+- [ ] **Medical Knowledge Base** - Expanded database of clinical conditions
+- [ ] **Multi-call Relationships** - Support for ongoing patient relationships across calls
+- [ ] **Multi-modal Support** - Add support for visual cues and assessments
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Technical Architecture
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Our system follows a multi-agent constellation approach:
 
-### `npm run eject`
+```
+┌─────────────────────────────────────────────────────┐
+│                     Primary Agent                   │
+│  (Conversation Management, Patient Interaction)     │
+└───────────────────────┬─────────────────────────────┘
+            ┌───────────┴──────────┐
+            ▼                      ▼
+┌────────────────────┐    ┌─────────────────────┐
+│ Support Agents     │    │ Orchestration       │
+│ - Question Bank    │    │ - State Management  │
+│ - Symptom Analysis │    │ - Progress Tracking │
+└────────────────────┘    └─────────────────────┘
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Implementation Details
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The project is built using:
+- **React** for the frontend
+- **Web Speech API** for voice interaction
+- **LLM APIs** for natural language processing (In Progress)
+- **Context API** for state management (In Progress)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Getting Started
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/hh2025.git
 
-## Learn More
+# Install dependencies
+cd hh2025
+npm install
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Start the development server
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## References
 
-### Code Splitting
+Mukherjee, S., Gamble, P., Ausin, M. S., Kant, N., Aggarwal, K., Manjunath, N., Datta, D., Liu, Z., Ding, J., Busacca, S., Bianco, C., Sharma, S., Lasko, R., Voisard, M., Harnejas, S., Filippova, D., Meixiong, G., Cha, K., Youssefi, A., Buvanesh, M., Weingram, H., Bierman-Lyle, S., Mangat, H. S., Parikh, K., Godil, S., & Miller, A. (2024). Polaris: A Safety-focused LLM Constellation Architecture for Healthcare. arXiv:2403.13313. https://arxiv.org/pdf/2403.13313
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Note:** This project is currently under active development for NUS Health Hack 2025. The architecture is inspired by the Polaris system described in ["Polaris: A Safety-focused LLM Constellation Architecture for Healthcare"](https://arxiv.org/pdf/2403.13313) (Mukherjee et al., 2024) but implemented at a smaller scale for the hackathon timeline.
