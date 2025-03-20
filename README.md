@@ -8,9 +8,8 @@ This repository contains our hackathon entry for a technology-based solution to 
 We've developed a portion of the functionality within the limited hackathon timeframe:
 
 - [x] **Complete UI Framework** - A React-based interface with patient dashboard, assessment interface, and result visualization
-- [x] **Voice-based Interaction** - Fully implemented speech recognition and text-to-speech for natural conversations (in English)
+- [x] **Voice-based Interaction** - Fully implemented speech recognition (speech-to-text) and text-to-speech for natural conversations (in English)
 - [x] **Progress Tracking** - Visual indicators showing assessment completion status
-- [x] **Response Confirmation** - Patient responses can be reviewed and edited for accuracy
 - [x] **Enhanced Summaries** - Visualization of assessment results with clinical insights
 - [x] **Basic Question Bank** - Initial set of cognitive assessment questions implemented
 
@@ -18,6 +17,16 @@ We've developed a portion of the functionality within the limited hackathon time
 - [x] **Question Display** - Shows current questions with visual indicators
 - [x] **Response Management** - Records and processes patient responses
 - [x] **Basic NLP Analysis** - Simple text analysis for symptom detection
+
+
+## Implementation Details
+
+The project is built using:
+- **React** for the frontend
+- **Web Speech API** for voice interaction
+- **LLM APIs** for natural language processing (In Progress)
+- **Context API** for state management (In Progress)
+
 
 ## Upcoming Features & Timeline
 
@@ -57,14 +66,6 @@ Our system follows a multi-agent constellation approach:
 │ - Symptom Analysis │    │ - Progress Tracking │
 └────────────────────┘    └─────────────────────┘
 ```
-
-## Implementation Details
-
-The project is built using:
-- **React** for the frontend
-- **Web Speech API** for voice interaction
-- **LLM APIs** for natural language processing (In Progress)
-- **Context API** for state management (In Progress)
 
 ## Getting Started
 
